@@ -56,7 +56,7 @@ app.get("/", (req, res) => {
 
 app.post("/", upload.single("file-to-upload"), async (req, res) => {
   try {
-    let personCount = 0;
+    let gunCount = 0;
     // Upload image to cloudinary
     const result = await cloudinary.uploader.upload(req.file.path);
     const objectURL = result.secure_url;
@@ -77,8 +77,8 @@ app.post("/", upload.single("file-to-upload"), async (req, res) => {
         `${objects.length} object${objects.length == 1 ? "" : "s"} found:`
       );
       for (const obj of objects) {
-        if (obj.object === "Person") {
-          personCount = personCount + 1;
+        if (obj.object === "gun") {
+          gunCount = gunCount + 1;
         }
         console.log(
           `    ${obj.object} (${obj.confidence.toFixed(
@@ -100,7 +100,7 @@ app.post("/", upload.single("file-to-upload"), async (req, res) => {
       );
     }
 
-    res.render("result.ejs", { count: personCount, img: objectURL });
+    res.render("result.ejs", { count: gunCount, img: objectURL });
   } catch (err) {
     console.log(err);
   }
